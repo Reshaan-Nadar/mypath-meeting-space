@@ -1,0 +1,20 @@
+{
+  "name": "mypath-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "mypath meeting-room booking site — Cloudflare Worker (frontend + API) backed by Supabase.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "wrangler": "^4.114.0",
+    "@cloudflare/workers-types": "^5.20260722.0"
+  }
+}

@@ -1,0 +1,6 @@
+# Copy this file to ".dev.vars" and fill in real values for local `wrangler dev`.
+# In production, set the same keys as secrets:  wrangler secret put <NAME>
+
+SUPABASE_URL=https://YOUR-PROJECT-REF.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+ADMIN_HASH=your-secret-admin-hash
