@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign up — mypath</title>
+<meta name="description" content="Create a mypath account to manage your meeting room bookings.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#040425; --alabaster:#E2E1DD; --alabaster-dim:#d6d4ce;
+    --silver:#B7B3AA; --grey:#6b6a63; --steel:#44546a; --steel-light:#5c6f88;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;font-family:'Inter',sans-serif;background:var(--alabaster);color:var(--ink);
+    line-height:1.6;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px 20px;
+  }
+  .card{width:100%;max-width:410px;}
+  .back{display:inline-block;color:var(--steel);text-decoration:none;font-weight:600;font-size:.85rem;margin-bottom:26px;}
+  .back:hover{text-decoration:underline;}
+  h1{font-family:'Fraunces',serif;font-size:1.95rem;margin:0 0 8px;}
+  .sub{color:var(--grey);font-size:.93rem;margin:0 0 30px;}
+
+  button,input{font-family:inherit;font-size:1rem;}
+  .btn-google{
+    width:100%;display:flex;align-items:center;justify-content:center;gap:11px;
+    padding:14px;border:1.5px solid var(--silver);border-radius:999px;background:#fff;
+    color:var(--ink);font-size:.95rem;font-weight:700;cursor:pointer;
+    transition:border-color .25s var(--ease),box-shadow .25s var(--ease);
+  }
+  .btn-google:hover{border-color:var(--steel);box-shadow:0 6px 18px rgba(4,4,37,.07);}
+  .btn-google svg{width:19px;height:19px;flex-shrink:0;}
+
+  .divider{display:flex;align-items:center;gap:14px;margin:24px 0;color:var(--grey);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--silver);}
+
+  label{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--grey);margin-bottom:8px;}
+  input[type=email]{
+    width:100%;border:none;border-bottom:1.5px solid var(--silver);background:transparent;
+    padding:10px 2px;transition:border-color .3s;
+  }
+  input[type=email]:focus{outline:none;border-bottom-color:var(--steel);}
+  .btn-primary{
+    width:100%;margin-top:22px;padding:15px;border:none;border-radius:999px;
+    background:var(--steel);color:var(--alabaster);font-size:.95rem;font-weight:700;cursor:pointer;
+    transition:background .25s var(--ease);
+  }
+  .btn-primary:hover:not(:disabled){background:var(--steel-light);}
+  .btn-primary:disabled{opacity:.55;cursor:not-allowed;}
+
+  .msg{margin-top:20px;padding:14px 16px;border-radius:12px;font-size:.9rem;display:none;}
+  .msg.show{display:block;}
+  .msg.ok{background:rgba(68,84,106,.1);color:var(--ink);}
+  .msg.err{background:rgba(150,40,40,.09);color:#8a2626;}
+  .fine{margin-top:24px;font-size:.78rem;color:var(--grey);text-align:center;}
+  .fine a{color:var(--steel);}
+</style>
+</head>
+<body>
+<div class="card">
+  <a class="back" href="/">&larr; Back to mypath</a>
+  <h1>Create your account</h1>
+  <p class="sub">Sign up to book rooms faster and keep track of your reservations. No password needed.</p>
+
+  <button type="button" class="btn-google" id="googleBtn">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.2-2.2H12v4.2h6.6c-.1 1.1-.8 2.8-2.4 3.9l-.1.1 3.5 2.7.2.1c2.2-2.1 3.7-5.1 3.7-8.8Z"/>
+      <path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.8-2.9l-3.7-2.9c-1 .7-2.4 1.2-4.1 1.2a7 7 0 0 1-6.6-4.9l-.1.1-3.6 2.8.1.1A11.9 11.9 0 0 0 12 24Z"/>
+      <path fill="#FBBC05" d="M5.4 14.5A7.3 7.3 0 0 1 5 12c0-.9.2-1.7.4-2.5v-.1L1.7 6.6l-.1.1A11.9 11.9 0 0 0 0 12c0 1.9.5 3.7 1.6 5.3l3.8-2.8Z"/>
+      <path fill="#EA4335" d="M12 4.7c2.2 0 3.7 1 4.6 1.8l3.3-3.2C17.9 1.5 15.2.4 12 .4A11.9 11.9 0 0 0 1.6 6.7l3.8 2.8A7 7 0 0 1 12 4.7Z"/>
+    </svg>
+    Continue with Google
+  </button>
+
+  <div class="divider">or</div>
+
+  <form id="emailForm" novalidate>
+    <label for="email">Email address</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+    <button type="submit" class="btn-primary" id="submitBtn">Email me a sign-up link</button>
+  </form>
+
+  <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+  <p class="fine">By signing up you agree to our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  // Publishable key: designed to be public. All tables have RLS enabled.
+  var SB_URL = 'https://pgzlhxyvbqyvlmsrorjz.supabase.co';
+  var SB_KEY = 'sb_publishable_Cvr1c3wv5TvWFinDZm31MQ_acgFkwoG';
+  // Where Supabase sends the user back to after they click the link / approve Google.
+  var REDIRECT = window.location.origin + '/';
+
+  var form = document.getElementById('emailForm');
+  var emailInput = document.getElementById('email');
+  var submitBtn = document.getElementById('submitBtn');
+  var msgEl = document.getElementById('msg');
+
+  function showMsg(text, kind){
+    msgEl.textContent = text;
+    msgEl.className = 'msg show ' + kind;
+  }
+
+  // Google: hand off to Supabase's authorize endpoint, which handles the OAuth dance.
+  document.getElementById('googleBtn').addEventListener('click', function(){
+    window.location.href = SB_URL + '/auth/v1/authorize?provider=google&redirect_to=' +
+      encodeURIComponent(REDIRECT);
+  });
+
+  // Email: Supabase mails a one-time link. That link IS the verification —
+  // there's no password to store and no separate verification table.
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = emailInput.value.trim();
+    if (!/\S+@\S+\.\S+/.test(email)){
+      showMsg('Please enter a valid email address.', 'err');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    var original = submitBtn.textContent;
+    submitBtn.textContent = 'Sending…';
+
+    // redirect_to is a query param on the REST endpoint (not a body field).
+    fetch(SB_URL + '/auth/v1/otp?redirect_to=' + encodeURIComponent(REDIRECT), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SB_KEY },
+      body: JSON.stringify({ email: email, create_user: true })
+    }).then(function(res){
+      if (res.ok){
+        showMsg('Check your inbox — we\'ve sent a sign-up link to ' + email + '. Click it to verify and finish.', 'ok');
+        form.reset();
+      } else {
+        return res.json().then(function(body){
+          showMsg(body.msg || body.error_description || 'Could not send the link. Please try again.', 'err');
+        }, function(){
+          showMsg('Could not send the link. Please try again.', 'err');
+        });
+      }
+    }).catch(function(){
+      showMsg('Network error — please check your connection and try again.', 'err');
+    }).then(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = original;
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -125,6 +125,9 @@
   .nav-right{display:flex;align-items:center;gap:18px;}
   .btn-nav{padding:10px 22px;border:1.5px solid var(--steel);border-radius:999px;font-size:.8rem;letter-spacing:.02em;color:var(--alabaster);background:var(--steel);transition:all .3s var(--ease);}
   .btn-nav:hover{background:var(--steel-light);border-color:var(--steel-light);color:var(--alabaster);}
+  /* plain-text sign-up beside Book Now — same text size, no button chrome */
+  .nav-signup{font-size:.8rem;font-weight:700;letter-spacing:.02em;color:var(--alabaster);transition:color .3s var(--ease);}
+  .nav-signup:hover{color:rgba(226,225,221,.7);}
 
   .nav.scrolled{background:rgba(226,225,221,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(4,4,37,.08);padding:16px 0;}
   .nav.scrolled .logo{color:var(--ink);}
@@ -132,6 +135,8 @@
   .nav.scrolled .nav-links a:hover{color:var(--ink);}
   .nav.scrolled .btn-nav{border-color:var(--steel);color:var(--alabaster);background:var(--steel);}
   .nav.scrolled .btn-nav:hover{background:var(--steel-light);border-color:var(--steel-light);}
+  .nav.scrolled .nav-signup{color:var(--ink);}
+  .nav.scrolled .nav-signup:hover{color:var(--steel);}
 
   .hamburger{display:none;flex-direction:column;gap:5px;width:26px;z-index:210;}
   .hamburger span{display:block;height:1.5px;width:100%;background:var(--alabaster);transition:all .3s var(--ease);}
@@ -268,7 +273,12 @@
   }
   .field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--walnut);}
   .field{margin-bottom:0;}
+  .booking-form > .field{margin-bottom:22px;}
   .field.notes{margin-bottom:26px;}
+  /* opt-in account creation, using the email already typed above */
+  .signup-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.88rem;color:var(--ink);margin-bottom:26px;}
+  .signup-check input{width:17px;height:17px;flex-shrink:0;margin-top:1px;accent-color:var(--steel);cursor:pointer;}
+  .signup-check span{line-height:1.5;}
 
   .stepper{display:flex;align-items:center;gap:18px;padding:6px 0;}
   .step-btn{
@@ -308,10 +318,13 @@
   /* ---------- booking: room photo + step panels ---------- */
   .booking-layout{display:grid;grid-template-columns:260px 1fr;gap:36px;}
   .booking-layout:has(.booking-photo[hidden]){grid-template-columns:1fr;}
-  .booking-photo{position:sticky;top:100px;align-self:start;border-radius:var(--radius-m);overflow:hidden;aspect-ratio:3/4;background:var(--silver);}
-  .booking-photo img{width:100%;height:100%;object-fit:cover;}
-  .booking-photo .gallery-caption{font-size:.74rem;padding:7px 14px;}
-  @media (max-width:760px){ .booking-layout{grid-template-columns:1fr;} .booking-photo{position:static;aspect-ratio:16/9;} }
+  .booking-photo{position:sticky;top:100px;align-self:start;}
+  .booking-photo img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:var(--radius-m);background:var(--silver);}
+  .booking-photo .gallery-caption{
+    position:static;display:block;margin-top:10px;padding:0;
+    background:none;backdrop-filter:none;border-radius:0;color:var(--ink);font-weight:700;font-size:.85rem;
+  }
+  @media (max-width:760px){ .booking-layout{grid-template-columns:1fr;} .booking-photo{position:static;} .booking-photo img{aspect-ratio:16/9;} }
 
   .space-options{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .space-option{
@@ -359,7 +372,9 @@
   }
   .footer-social svg{width:18px;height:18px;}
   .footer-social:hover{background:var(--alabaster);color:var(--ink);}
-  .footer-bottom{padding-top:26px;font-size:.8rem;color:rgba(226,225,221,.55);}
+  .footer-bottom{padding-top:26px;font-size:.8rem;color:rgba(226,225,221,.55);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .footer-bottom a{color:rgba(226,225,221,.55);transition:color .2s;}
+  .footer-bottom a:hover{color:var(--alabaster);}
 
   /* ---------- floating cta ---------- */
   .floating-cta{
@@ -395,6 +410,7 @@
     .amenity span{font-size:.78rem;}
     .amenity svg{width:22px;height:22px;}
     .btn-nav{display:none;}
+    .nav-signup{display:none;}
     .amenities-grid{grid-template-columns:1fr 1fr;}
     .footer-inner{grid-template-columns:1fr;gap:32px;}
     .hero-content{padding:0 6vw 76px;}
@@ -459,6 +475,7 @@
     </ul>
     <div class="nav-right">
       <a href="#" class="btn-nav" data-open-booking>Book Now</a>
+      <a href="signup.html" class="nav-signup">Sign up</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -470,6 +487,7 @@
   <a href="#room">Room</a>
   <a href="#amenities">Amenities</a>
   <a href="#" data-open-booking>Book</a>
+  <a href="signup.html">Sign up</a>
   <a href="#contact">Contact</a>
 </div>
 
@@ -669,6 +687,10 @@
                   <label for="fNotes">Notes (optional)</label>
                   <textarea id="fNotes" rows="2" placeholder="Anything we should prepare?"></textarea>
                 </div>
+                <label class="signup-check">
+                  <input type="checkbox" id="fSignup">
+                  <span>Also create a mypath account with this email, so I can manage my bookings. We'll email a verification link.</span>
+                </label>
               </form>
             </section>
 
@@ -736,7 +758,8 @@
     </div>
   </div>
   <div class="container footer-bottom">
-    <span>© 2026 mypath. All rights reserved.</span>
+    <span>A Nadar Tejwani Think product</span>
+    <a href="privacy-policy.html">Privacy Policy</a>
   </div>
 </footer>
 
@@ -946,6 +969,23 @@
   // Empty string = same origin as the site (the Cloudflare Worker serves both).
   var API_BASE = '';
 
+  /* ---- Supabase Auth (publishable key — safe in the browser, RLS enforced) ----
+     Signup goes straight to Supabase's REST auth endpoint, so there's no client
+     library to ship. Supabase emails the verification link itself, and the
+     on_auth_user_created trigger creates the public.profiles row. */
+  var SB_URL = 'https://pgzlhxyvbqyvlmsrorjz.supabase.co';
+  var SB_KEY = 'sb_publishable_Cvr1c3wv5TvWFinDZm31MQ_acgFkwoG';
+
+  // Sends a one-time login/verification link to `email`. Creates the user if new.
+  // redirect_to is a query param on the REST endpoint (not a body field).
+  function sendSignupLink(email){
+    return fetch(SB_URL + '/auth/v1/otp?redirect_to=' + encodeURIComponent(window.location.origin + '/'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SB_KEY },
+      body: JSON.stringify({ email: email, create_user: true })
+    });
+  }
+
   // Convert JS 24h hour (9, 14) to backend's expected "09:00-10:00" / "14:00-15:00"
   function slotFormat(hour){
     var h = hour < 10 ? '0' + hour : '' + hour;
@@ -979,6 +1019,7 @@
   var fPhone = document.getElementById('fPhone');
   var fTopic = document.getElementById('fTopic');
   var fNotes = document.getElementById('fNotes');
+  var signupCheck = document.getElementById('fSignup');
   var confirmErrorEl = document.getElementById('confirmError');
 
   /* ---- step wizard: Space -> Date -> Time -> Your details -> Confirm ---- */
@@ -1354,7 +1395,16 @@
           return room.name + ' (' + selectedRooms[k] + ')';
         });
         var roomList = roomBits.join(' + ');
-        successMsgEl.textContent = 'Thanks, ' + name + ' — we\'ve received your request for ' + roomList + ', ' + dateLabel + ', ' + timeRange + '. We\'ll confirm shortly by phone or email.';
+        var msg = 'Thanks, ' + name + ' — we\'ve received your request for ' + roomList + ', ' + dateLabel + ', ' + timeRange + '. We\'ll confirm shortly by phone or email.';
+
+        // Opt-in account creation: the booking is already saved, so a failure
+        // here must not fail the booking — just don't promise the email.
+        if (signupCheck.checked && email){
+          msg += ' We\'ve also sent a verification link to ' + email + ' to finish setting up your account.';
+          sendSignupLink(email).catch(function(){ /* booking still succeeded */ });
+        }
+
+        successMsgEl.textContent = msg;
         bookingStepEls.forEach(function(sec){ sec.hidden = true; });
         stepActionsEl.hidden = true;
         stepsNavEl.hidden = true;

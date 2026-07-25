@@ -107,6 +107,9 @@
   .hero-content .btn-primary:hover{background:var(--steel-light);box-shadow:0 12px 26px rgba(68,84,106,.32);}
   .btn-secondary{background:transparent;border:1.5px solid var(--ink);color:var(--ink);}
   .btn-secondary:hover{background:var(--ink);color:var(--alabaster);}
+  .hero-cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .btn-outline{background:transparent;border:1.5px solid rgba(226,225,221,.5);color:var(--alabaster);white-space:normal;}
+  .btn-outline:hover{background:var(--alabaster);color:var(--ink);border-color:var(--alabaster);}
   .btn-full{width:100%;justify-content:center;margin-top:6px;}
   .btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none;}
 
@@ -308,10 +311,13 @@
   /* ---------- booking: room photo + step panels ---------- */
   .booking-layout{display:grid;grid-template-columns:260px 1fr;gap:36px;}
   .booking-layout:has(.booking-photo[hidden]){grid-template-columns:1fr;}
-  .booking-photo{position:sticky;top:100px;align-self:start;border-radius:var(--radius-m);overflow:hidden;aspect-ratio:3/4;background:var(--silver);}
-  .booking-photo img{width:100%;height:100%;object-fit:cover;}
-  .booking-photo .gallery-caption{font-size:.74rem;padding:7px 14px;}
-  @media (max-width:760px){ .booking-layout{grid-template-columns:1fr;} .booking-photo{position:static;aspect-ratio:16/9;} }
+  .booking-photo{position:sticky;top:100px;align-self:start;}
+  .booking-photo img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:var(--radius-m);background:var(--silver);}
+  .booking-photo .gallery-caption{
+    position:static;display:block;margin-top:10px;padding:0;
+    background:none;backdrop-filter:none;border-radius:0;color:var(--ink);font-weight:700;font-size:.85rem;
+  }
+  @media (max-width:760px){ .booking-layout{grid-template-columns:1fr;} .booking-photo{position:static;} .booking-photo img{aspect-ratio:16/9;} }
 
   .space-options{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .space-option{
@@ -359,7 +365,9 @@
   }
   .footer-social svg{width:18px;height:18px;}
   .footer-social:hover{background:var(--alabaster);color:var(--ink);}
-  .footer-bottom{padding-top:26px;font-size:.8rem;color:rgba(226,225,221,.55);}
+  .footer-bottom{padding-top:26px;font-size:.8rem;color:rgba(226,225,221,.55);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .footer-bottom a{color:rgba(226,225,221,.55);transition:color .2s;}
+  .footer-bottom a:hover{color:var(--alabaster);}
 
   /* ---------- floating cta ---------- */
   .floating-cta{
@@ -487,9 +495,15 @@
   <div class="hero-content">
     <h1 class="hero-title">mypath</h1>
     <p class="hero-sub">One room. Eight seats. Zero distractions.</p>
-    <a href="#" class="btn btn-primary" data-open-booking>Book your slot
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
-    </a>
+    <div class="hero-cta-row">
+      <a href="#" class="btn btn-primary" data-open-booking>Book your slot
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+      </a>
+      <button type="button" class="btn btn-outline" id="eventCallBtn" data-phone="72087 75100">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 0-2Z"/></svg>
+        <span>Event space, up to 150? Call us</span>
+      </button>
+    </div>
     <p class="hero-tag">Private · By appointment</p>
   </div>
 
@@ -736,7 +750,8 @@
     </div>
   </div>
   <div class="container footer-bottom">
-    <span>© 2026 mypath. All rights reserved.</span>
+    <span>A Nadar Tejwani Think product</span>
+    <a href="privacy-policy.html">Privacy Policy</a>
   </div>
 </footer>
 
@@ -867,6 +882,13 @@
       if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
     }
+  });
+
+  /* ================= EVENT SPACE CALL (confirm before dialing, number hidden until then) ================= */
+  var eventCallBtn = document.getElementById('eventCallBtn');
+  eventCallBtn.addEventListener('click', function(){
+    var phone = eventCallBtn.dataset.phone;
+    if (window.confirm('Call mypath at ' + phone + '?')) window.location.href = 'tel:+91' + phone.replace(/\s+/g, '');
   });
 
   /* ================= FLOATING CTA ================= */
